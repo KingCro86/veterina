@@ -1,7 +1,10 @@
 # c:\xampp\mysql\bin\mysql -uedunova -pedunova <D:\pp22\polaznik33.edunova.hr\skripta1.sql
-drop database if exists specijalna__veterinarska_ambulanta_happyvet;
-create database specijalna__veterinarska_ambulanta_happyvet character set utf8mb4;
-use specijalna__veterinarska_ambulanta_happyvet;
+drop database if exists happyvet;
+create database happyvet character set utf8mb4;
+use happyvet;
+
+alter database nikta_happyvet default character set utf8mb4;
+
 
 create table operater(
     sifra int not null primary key auto_increment,

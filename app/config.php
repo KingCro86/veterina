@@ -4,7 +4,7 @@
 if($dev){
     $baza=[
         'server'=>'localhost',
-        'baza'=>'specijalna__veterinarska_ambulanta_happyvet',
+        'baza'=>'happyvet',
         'korisnik'=>'edunova',
         'lozinka'=>'edunova'
     
@@ -12,9 +12,9 @@ if($dev){
 }else{
     $baza=[
         'server'=>'localhost',
-        'baza'=>'xxxxx',
-        'korisnik'=>'xxxxx',
-        'lozinka'=>'xxxxx'
+        'baza'=>'nikta_happyvet',
+        'korisnik'=>'nikta_nikta',
+        'lozinka'=>'ivan1986.'
     ];
 }
 return [
