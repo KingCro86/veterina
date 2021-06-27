@@ -1,6 +1,7 @@
 <?php
+session_start();
 
-echo '<pre>';
-//print_r($_SERVER);
-echo 'Hello ponovo još jednom';
-echo '<pre>';
+//echo __DIR__;
+define('BP',__DIR__ . DIRECTORY_SEPARATOR);
+
+echo BP;
