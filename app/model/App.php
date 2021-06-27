@@ -33,4 +33,10 @@ class App
            echo 'Čak niti HGSS ne može naći ' . $klasa . '->' . $funkcija;
        }
     }
+
+    public static function config($kljuc)
+    {
+        $config=include BP . 'app/config.php';
+        return $config[$kljuc];
+    }
 }
