@@ -11,11 +11,11 @@ create table operater(
     prezime varchar(50) not null,
     uloga varchar(10) not null
 );
-
+# lozinka je i
 insert into operater values(null,'ivan.puhovski@hotmail.com',
 '$2y$10$6ZPMQsSKUNkeDL8elh.cluD4eQtCfMrb2rzrGPNq88vomgqMGbHQq',
 'Ivan','Puhovski','admin');
-
+# lozinka je k
 insert into operater values(null,'king86@edunova.hr',
 '$2y$10$sgpLyFe/CDE1s8fclSngU.TCScIDRBh1uUZOhRXpZByhChZ8I0yGe',
 'King','Edunova','oper');
