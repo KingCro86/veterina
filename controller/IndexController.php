@@ -5,8 +5,10 @@ class IndexController  extends Controller
     public function index()
     {
         $this->view->render('index',[
-            'rezultat'=>2+2
-        ]);
+            'rezultat'=>2+2,
+            'drugi'=>'ttt'
+        ]);   
+       
     }
 
     public function drugo()
