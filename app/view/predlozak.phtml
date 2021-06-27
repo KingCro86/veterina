@@ -5,13 +5,22 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foundation for Sites</title>
-    <link rel="stylesheet" href="assets/css/foundation.css">
+    <link rel="stylesheet" href="<?=App::config('url')?>public/css/foundation.css">
+    <link rel="stylesheet" href="<?=App::config('url')?>public/css/app.css">
   </head>
 <body>
+<div class="title-bar" data-responsive-toggle="example-menu" data-hide-for="medium">
+  <button class="menu-icon" type="button" data-toggle="example-menu"></button>
+  <div class="title-bar-title">Menu</div>
+</div>
 
+
+<script src="<?=App::config('url')?>public/js/vendor/jquery.js"></script>
+<script src="<?=App::config('url')?>public/js/vendor/what-input.js"></script>
+<script src="<?=App::config('url')?>public/js/vendor/foundation.js"></script>
+<script src="<?=App::config('url')?>public/js/app.js"></script>
  
 
-<script src="assets/js/vendor.js"></script>
-<script src="assets/js/foundation.js"></script>
+
 </body>
 </html>
