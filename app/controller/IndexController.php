@@ -68,10 +68,14 @@ class IndexController extends Controller
         ]);
     }
 
-    /*
+    
     public function test()
     {
-        echo password_hash('k',PASSWORD_BCRYPT);
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('select * from pregled');
+        $izraz->execute();
+        $rezultati = $izraz->fetchAll();
+        print_r($rezultati);
     }
-     */
+     
 }
