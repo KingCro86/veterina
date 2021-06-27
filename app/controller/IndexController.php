@@ -67,9 +67,11 @@ class IndexController extends Controller
             'poruka'=>$poruka
         ]);
     }
+
+    /*
     public function test()
     {
         echo password_hash('k',PASSWORD_BCRYPT);
     }
-
+     */
 }
