@@ -15,4 +15,16 @@ class Pregled
         return $izraz->fetchAll();
     }
 
+    public static function dodajNovi($pregled)
+    {
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('
+        
+            insert into pregled (naziv,trajanje,cijena,placanje)
+            values (:naziv,:trajanje,:cijena,:placanje)
+        
+        ');
+        $izraz->execute((array)$pregled);
+    }
+
 }
