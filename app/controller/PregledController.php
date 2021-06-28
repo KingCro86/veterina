@@ -7,6 +7,9 @@ class PregledController extends AutorizacijaController
                         . 'pregled'
                         . DIRECTORY_SEPARATOR;
 
+    private $pregled=null;
+    private $poruka='';
+
     public function index()
     {
         $this->view->render($this->viewDir . 'index',[
@@ -17,62 +20,107 @@ class PregledController extends AutorizacijaController
     public function novo()
     {
         if($_SERVER['REQUEST_METHOD']==='GET'){
-            $pregled = new stdClass();
-            $pregled->naziv='';
-            $pregled->trajanje=10;
-            $pregled->cijena=1000;
-            $pregled->placanje='0';
-           // $this->view->render($this->viewDir . 'novo',[
-                //'pregled'=>$pregled,
-               // 'poruka'=>'Popunite sve podatke'
-            //]);
-            $this->novoView($pregled,'Popunite sve podatke');
+            $this->noviPregled();
             return;
         }
 
+        $this->pregled = (object) $_POST;
+        if(!$this->kontrolaNaziv()){return;}
+        if(!$this->kontrolaTrajanje()){return;}
+        if(!$this->kontrolaCijena()){return;}
+        Pregled::dodajNovi($this->pregled);
+        $this->index();
+    }
 
-        $pregled = (object) $_POST;
-
-        if(strlen(trim($pregled->naziv))===0){
-            //$this->view->render($this->viewDir . 'novo',[
-                //'pregled'=>$pregled,
-                //'poruka'=>'Naziv obavezno'
-            //]);
-            $this->novoView($pregled,'Naziv obavezno');
+    public function promjena()
+    {
+        if($_SERVER['REQUEST_METHOD']==='GET'){
+            if(!isset($_GET['sifra'])){
+               $ic = new IndexController();
+               $ic->logout();
+               return;
+            }
+            $this->pregled = Pregled::ucitaj($_GET['sifra']);
+            $this->poruka='Promjenite željene podatke';
+            $this->promjenaView();
             return;
         }
+        $this->pregled = (object) $_POST;
+        if(!$this->kontrolaNaziv()){return;}
+        if(!$this->kontrolaTrajanje()){return;}
+        // neću odraditi na promjeni kontrolu cijene
+        Pregled::promjeniPostojeci($this->pregled);
+        $this->index();
+        }
+      
+        private function noviPregled()
+        {
+            $this->pregled = new stdClass();
+            $this->pregled->naziv='';
+            $this->pregled->trajanje=10;
+            $this->pregled->cijena=1000;
+            $this->pregled->placanje='0';
+            $this->poruka='Unesite tražene podatke';
+            $this->novoView();
+        }
+       
+        private function novoView()
+        {
+            $this->view->render($this->viewDir . 'novo',[
+                'pregled'=>$this->pregled,
+                'poruka'=>$this->poruka
+            ]);
+        }
+    
+        private function promjenaView()
+        {
+            $this->view->render($this->viewDir . 'promjena',[
+                'pregled'=>$this->pregled,
+                'poruka'=>$this->poruka
+            ]);
+        }
+    
+    
+        private function kontrolaNaziv()
+        {
+            if(strlen(trim($this->pregled->naziv))===0){
+                $this->poruka='Naziv obavezno';
+                $this->novoView();
+                return false;
+             }
+     
+             if(strlen(trim($this->pregled->naziv))>50){
+                $this->poruka='Naziv ne može imati više od 50 znakova';
+                $this->novoView();
+                return false;
+             }
+             return true;
+        }
 
-        if(strlen(trim($pregled->naziv))>50){
-            $this->novoView($pregled,'Naziv ne može imati više od 50 znakova');
-            return;
+        private function kontrolaTrajanje()
+        {
+            if(!is_numeric($this->pregled->trajanje)
+                || ((int)$this->pregled->trajanje)<=0){
+                    $this->poruka='Trajanje mora biti cijeli pozitivni broj';
+                $this->novoView();
+                return false;
+          }
+             return true;
         }
         
-        if(!is_numeric($pregled->trajanje)
-            || ((int)$pregled->trajanje)<=0){
-            $this->novoView($pregled,'Trajanje mora biti cijeli pozitivni broj');
-            return;
-      }
-
-      $pregled->cijena=str_replace(',','.',$pregled->cijena);
-      if(!is_numeric($pregled->cijena)
-            || ((float)$pregled->cijena)<=0){
-            $this->novoView($pregled,'Cijena mora biti pozitivni broj');
-            return;
-      }
-
-      // npr. svojstvu verificiran ne treba kontrola
-
-      // ovdje sam siguran da je sve OK prije odlaska u bazu
-      Pregled::dodajNovi($pregled);
-      $this->index();
-       
+        private function kontrolaCijena()
+        {
+            $this->pregled->cijena=str_replace(',','.',$this->pregled->cijena);
+        if(!is_numeric($this->pregled->cijena)
+              || ((float)$this->pregled->cijena)<=0){
+                $this->poruka='Cijena mora biti pozitivni broj';
+              $this->novoView();
+              return false;
+        }
+         return true;
     }
 
-    private function novoView($pregled, $poruka)
-    {
-        $this->view->render($this->viewDir . 'novo',[
-            'pregled'=>$pregled,
-            'poruka'=>$poruka
-        ]);
-    }
+      
+
+   
 }

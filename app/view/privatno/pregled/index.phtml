@@ -4,7 +4,9 @@
 <?php foreach($pregledi as $pregled): ?>
     <li>
         <?=$pregled->naziv?> 
-        <a href="#">Promjeni</a>
+        <a href="<?=App::config('url')?>pregled/promjena?sifra=<?=$pregled->sifra?>">
+            Promjeni
+        </a>
         <a href="#">Obriši</a>
     </li>
 <?php endforeach; ?>
