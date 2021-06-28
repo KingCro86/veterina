@@ -14,4 +14,9 @@ class PregledController extends AutorizacijaController
         ]);
     }
 
+    public function novo()
+    {
+        $this->view->render($this->viewDir . 'novo');
+    }
+
 }
