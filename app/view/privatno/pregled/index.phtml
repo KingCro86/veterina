@@ -1,13 +1,19 @@
 <h1 style="font-size: 1em;">Pregledi</h1>
 <a href="<?=App::config('url')?>pregled/novo"">Dodaj novi pregled</a>
-<ul>
+<ul style="list-style-type: none">
 <?php foreach($pregledi as $pregled): ?>
     <li>
-        <?=$pregled->naziv?> 
+    <span style="font-size: 1.5em; color:<?php 
+        echo $pregled->placanje ? 'green' : 'red';
+        ?>"><?=$pregled->naziv?> </span>
         <a href="<?=App::config('url')?>pregled/promjena?sifra=<?=$pregled->sifra?>">
-            Promjeni
+        <i title="promjena" class="fas fa-2x fa-pencil-alt"></i>
         </a>
-        <a href="#">Obriši</a>
+        <?php if($pregled->ukupnoordinacija==0): ?>
+            <a href="<?=App::config('url')?>pregled/brisanje?sifra=<?=$pregled->sifra?>"
+            onclick="return confirm('Sigurno obrisati <?=$pregled->naziv?>?');">
+            <i title="brisanje" style="color: red" class="fas fa-trash-alt"></i></a>
+        <?php endif;?>
     </li>
 <?php endforeach; ?>
 </ul>

@@ -52,6 +52,18 @@ class PregledController extends AutorizacijaController
         Pregled::promjeniPostojeci($this->pregled);
         $this->index();
         }
+
+        public function brisanje()
+        {
+            if(!isset($_GET['sifra'])){
+                $ic = new IndexController();
+                $ic->logout();
+                return;
+            }
+            Pregled::obrisiPostojeci($_GET['sifra']);
+            header('location: ' . App::config('url') . 'pregled/index');
+           
+        }
       
         private function noviPregled()
         {
