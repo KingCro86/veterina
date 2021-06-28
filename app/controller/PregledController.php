@@ -16,7 +16,33 @@ class PregledController extends AutorizacijaController
 
     public function novo()
     {
-        $this->view->render($this->viewDir . 'novo');
+        if($_SERVER['REQUEST_METHOD']==='GET'){
+            $pregled = new stdClass();
+            $pregled->naziv='';
+            $pregled->trajanje=10;
+            $pregled->cijena=1000;
+            $pregled->placanje='0';
+            $this->view->render($this->viewDir . 'novo',[
+                'pregled'=>$pregled,
+                'poruka'=>'Popunite sve podatke'
+            ]);
+            return;
+        }
+
+
+        $pregled = (object) $_POST;
+
+        if(strlen(trim($pregled->naziv))===0){
+            $this->view->render($this->viewDir . 'novo',[
+                'pregled'=>$pregled,
+                'poruka'=>'Naziv obavezno'
+            ]);
+            return;
+        }
+
+
+
+       
     }
 
 }
