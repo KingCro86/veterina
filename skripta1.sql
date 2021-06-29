@@ -111,3 +111,5 @@ values (null,1,null),(null,2,null),(null,3,null),(null,4,null),(null,5,null);
 
 insert into osoblje (ordinacija,radnik)
 values (1,1),(1,2),(1,3),(1,4),(1,5);
+
+update ordinacija set veterinar=1 where sifra=1;
