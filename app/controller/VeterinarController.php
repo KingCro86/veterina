@@ -25,6 +25,15 @@ class VeterinarController extends AutorizacijaController
             return;
         }
         $this->entitet = (object) $_POST;
+          
+        try {
+            $this->kontrolaIme();
+            $this->kontrolaPrezime();
+        } catch (Exception $e) {
+            $this->poruka=$e->getMessage();
+            $this->novoView();
+            return;
+        }
         
         Veterinar::dodajNovi($this->entitet);
         $this->index();
@@ -50,6 +59,20 @@ class VeterinarController extends AutorizacijaController
             'poruka'=>$this->poruka
         ]);
     }
+    private function kontrolaIme()
+    {
+        if(strlen(trim($this->entitet->ime))==0){
+            throw new Exception('Ime obavezno');
+        }
+    }
+
+    private function kontrolaPrezime()
+    {
+        if(strlen(trim($this->entitet->prezime))==0){
+            throw new Exception('Prezime obavezno');
+        }
+    }
+
   
 
 }
