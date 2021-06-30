@@ -123,6 +123,37 @@ class Veterinar
 
     }
 
+    public static function obrisiPostojeci($sifra)
+    {
+        $veza = DB::getInstanca();
+        $veza->beginTransaction();
+        $izraz=$veza->prepare('
+        
+          select osoba from veterinar where sifra=:sifra
+        
+        ');
+        $izraz->execute(['sifra'=>$sifra]);
+        $sifraOsoba=$izraz->fetchColumn();
+
+        $izraz=$veza->prepare('
+        
+            delete from veterinar where sifra=:sifra
+        
+        ');
+        $izraz->execute(['sifra'=>$sifra]);
+
+
+        $izraz=$veza->prepare('
+        
+            delete from osoba where sifra=:sifra
+        
+        ');
+        $izraz->execute(['sifra'=>$sifraOsoba]);
+
+        $veza->commit();
+    }
+
+
 
 
 

@@ -60,6 +60,18 @@ class VeterinarController extends AutorizacijaController
         }       
     }
 
+    public function brisanje()
+    {
+        if(!isset($_GET['sifra'])){
+            $ic = new IndexController();
+            $ic->logout();
+            return;
+        }
+        Veterinar::obrisiPostojeci($_GET['sifra']);
+        header('location: ' . App::config('url') . 'veterinar/index');
+       
+    }
+
 
     private function noviEntitet()
     {
