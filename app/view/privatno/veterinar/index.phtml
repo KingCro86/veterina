@@ -18,11 +18,11 @@
                 <td><?=$red->iban?></td>
                 <td><?=$red->oib?></td>
                 <td>
-                    <a href="<?=App::config('url')?>veterinar/promjena?sifra=<?=$pregled->sifra?>">
+                <a href="<?=App::config('url')?>veterinar/promjena?sifra=<?=$red->sifra?>">
                         <i title="promjena" class="fas fa-2x fa-pencil-alt"></i>
                     </a>
                     <?php if($red->ukupnoordinacija==0): ?>
-                        <a href="<?=App::config('url')?>veterinar/brisanje?sifra=<?=$pregled->sifra?>"
+                        <a href="<?=App::config('url')?>veterinar/brisanje?sifra=<?=$red->sifra?>"
                         onclick="return confirm('Sigurno obrisati <?=$red->ime?> <?=$red->prezime?>?');">
                         <i title="brisanje" style="color: red" class="fas fa-trash-alt"></i></a>
                     <?php endif;?>

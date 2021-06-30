@@ -3,6 +3,25 @@
 class Veterinar
 {
 
+
+    public static function ucitaj($sifra)
+    {
+
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('
+        
+        select a.sifra, a.iban,b.ime,b.prezime,
+        b.oib,b.email from veterinar a 
+        inner join osoba b on a.osoba =b.sifra
+        where a.sifra=:sifra;
+        
+        ');
+        $izraz->execute(['sifra'=>$sifra]);
+        return $izraz->fetch();
+
+
+    }
+
     public static function ucitajSve()
     {
 
@@ -55,6 +74,53 @@ class Veterinar
         ]);
 
         $veza->commit();
+    }
+
+    public static function promjeniPostojeci($entitet)
+    {
+        $veza = DB::getInstanca();
+        $veza->beginTransaction();
+        $izraz=$veza->prepare('
+        
+          select osoba from veterinar where sifra=:sifra
+        
+        ');
+        $izraz->execute(['sifra'=>$entitet->sifra]);
+        $sifraOsoba=$izraz->fetchColumn();
+
+
+        $izraz=$veza->prepare('
+        
+            update osoba 
+            set ime=:ime, prezime=:prezime, email=:email, oib=:oib
+            where sifra=:sifra
+            
+        ');
+        $izraz->execute([
+            'ime'=>$entitet->ime,
+            'prezime'=>$entitet->prezime,
+            'email'=>$entitet->email,
+            'oib'=>$entitet->oib,
+            'sifra'=>$sifraOsoba
+        ]);
+
+
+        $izraz=$veza->prepare('
+        
+            update veterinar
+            set iban=:iban
+            where sifra=:sifra
+    
+        ');
+        $izraz->execute([
+            'sifra'=>$entitet->sifra,
+            'iban'=>$entitet->iban
+        ]);
+
+
+
+        $veza->commit();
+
     }
 
 

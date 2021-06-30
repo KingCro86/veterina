@@ -1,5 +1,7 @@
 <?php
 
+// čitati o Iznimkama https://www.php.net/manual/en/language.exceptions.php
+
 class VeterinarController extends AutorizacijaController
 {
     private $viewDir = 'privatno'
@@ -17,7 +19,6 @@ class VeterinarController extends AutorizacijaController
         ]);
     }
 
-
     public function novo()
     {
         if($_SERVER['REQUEST_METHOD']==='GET'){
@@ -25,7 +26,6 @@ class VeterinarController extends AutorizacijaController
             return;
         }
         $this->entitet = (object) $_POST;
-          
         try {
             $this->kontrola();
             Veterinar::dodajNovi($this->entitet);
@@ -35,6 +35,31 @@ class VeterinarController extends AutorizacijaController
             $this->novoView();
         }       
     }
+
+    public function promjena()
+    {
+        if($_SERVER['REQUEST_METHOD']==='GET'){
+            if(!isset($_GET['sifra'])){
+               $ic = new IndexController();
+               $ic->logout();
+               return;
+            }
+            $this->entitet = Veterinar::ucitaj($_GET['sifra']);
+            $this->poruka='Promjenite željene podatke';
+            $this->promjenaView();
+            return;
+        }
+        $this->entitet = (object) $_POST;
+        try {
+            $this->kontrolaImePrezime();
+            Veterinar::promjeniPostojeci($this->entitet);
+            $this->index();
+        } catch (Exception $e) {
+            $this->poruka=$e->getMessage();
+            $this->promjenaView();
+        }       
+    }
+
 
     private function noviEntitet()
     {
@@ -46,6 +71,14 @@ class VeterinarController extends AutorizacijaController
         $this->entitet->iban='';
         $this->poruka='Unesite tražene podatke';
         $this->novoView();
+    }
+
+    private function promjenaView()
+    {
+        $this->view->render($this->viewDir . 'promjena',[
+            'entitet'=>$this->entitet,
+            'poruka'=>$this->poruka
+        ]);
     }
 
 
@@ -68,6 +101,7 @@ class VeterinarController extends AutorizacijaController
         $this->kontrolaIme();
         $this->kontrolaPrezime();
     }
+  
     private function kontrolaIme()
     {
         if(strlen(trim($this->entitet->ime))==0){
@@ -77,7 +111,6 @@ class VeterinarController extends AutorizacijaController
         if(strlen(trim($this->entitet->ime))>50){
             throw new Exception('Ime predugačko');
         }
-
     }
 
     private function kontrolaPrezime()
@@ -93,9 +126,4 @@ class VeterinarController extends AutorizacijaController
             throw new Exception('OIB nije ispravan');
         }
     }
-
-  
-
 }
-
-  
