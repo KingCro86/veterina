@@ -1,34 +1,39 @@
-<table>
-    <thead>
-        <tr>
-            <th>Ime i prezime radnika</th>
-            <th>email</th>
-            <th>Broj ugovora</th>
-            <th>OIB</th>
-            <th style="text-align: right;">
-            <a href="<?=App::config('url')?>radnik/novo">Dodaj novog</a>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach($entiteti as $red): ?>
-            <tr>
-                <td><?=$red->ime?> <?=$red->prezime?></td>
-                <td><?=$red->email?></td>
-                <td><?=$red->brojugovora?></td>
-                <td><?=$red->oib?></td>
-                <td>
-                    <a href="<?=App::config('url')?>radnik/promjena?sifra=<?=$red->sifra?>">
+<a href="<?=App::config('url')?>radnik/novo">Dodaj novog</a>
+           
+<div class="grid-x grid-margin-x">
+    <?php foreach($entiteti as $red): ?>
+        <div class="large-3 medium-6 cell">
+            <div class="callout" style="min-height: 200px;">
+
+                <img src="<?=$red->slika?>" alt="<?=$red->ime?> <?=$red->prezime?>">
+
+                <?=$red->ime?> <?=$red->prezime?><br />
+                <?=$red->email?>
+
+                <?php if($red->oib!=null): ?>
+                <br />
+                OIB: <?=$red->oib?>
+                <?php endif; ?>
+                
+                <?php if($red->brojugovora!=null): ?>
+                <br />
+                Broj ugovora: <?=$red->brojugovora?>
+                <?php endif; ?>
+
+                <hr />
+                <a href="<?=App::config('url')?>radnik/promjena?sifra=<?=$red->sifra?>">
                         <i title="promjena" class="fas fa-2x fa-pencil-alt"></i>
-                    </a>
+                    
+                    </a> 
                     <?php if($red->ukupnoordinacija==0): ?>
                         <a href="<?=App::config('url')?>radnik/brisanje?sifra=<?=$red->sifra?>"
                         onclick="return confirm('Sigurno obrisati <?=Funkcije::escapeSingleQuote($red->ime . ' ' . $red->prezime) ?>?');">
                         <i title="brisanje" style="color: red" class="fas fa-trash-alt"></i></a>
                     <?php endif;?>
-                </td>
-            </tr>
+               
 
-        <?php endforeach; ?>
-    </tbody>
-</table>
+            </div>
+        </div>
+
+    <?php endforeach; ?>
+</div>

@@ -32,7 +32,7 @@ class Radnik
         select a.sifra, a.brojugovora,b.ime,b.prezime,
         b.oib,b.email, count(c.ordinacija) as ukupnoordinacija from radnik a 
         inner join osoba b on a.osoba =b.sifra 
-        left join osoblje c on a.sifra =c.radnik
+        left join osoblje c on a.sifra =c.radnik 
         group by a.sifra, a.brojugovora,b.ime,b.prezime,
         b.oib,b.email;
         
@@ -64,7 +64,7 @@ class Radnik
         $zadnjaSifra=$veza->lastInsertId();
         $izraz=$veza->prepare('
         
-            insert into radnik 
+            insert into radnik
             (osoba, brojugovora) values
             (:osoba, :brojugovora)
         

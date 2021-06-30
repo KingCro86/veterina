@@ -12,8 +12,24 @@ class RadnikController extends AutorizacijaController
 
     public function index()
     {
+        $radnici = Radnik::ucitajSve();
+
+        foreach($radnici as $red){
+            if(file_exists(BP . 'public' . DIRECTORY_SEPARATOR .
+            'img' . DIRECTORY_SEPARATOR . 'radnik' . 
+            DIRECTORY_SEPARATOR . $red->sifra . '.png')){
+                $red->slika = App::config('url') . 
+                'public/img/radnik/' . $red->sifra . '.png';
+            }else{
+                $red->slika = App::config('url') . 
+                'public/img/radnik/nepoznat.png';
+            }
+        }
+
+
         $this->view->render($this->viewDir . 'index',[
-            'entiteti'=>Radnik::ucitajSve()
+            
+            'entiteti'=>$radnici
         ]);
     }
 
