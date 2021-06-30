@@ -27,16 +27,13 @@ class VeterinarController extends AutorizacijaController
         $this->entitet = (object) $_POST;
           
         try {
-            $this->kontrolaIme();
-            $this->kontrolaPrezime();
+            $this->kontrola();
+            Veterinar::dodajNovi($this->entitet);
+            $this->index();
         } catch (Exception $e) {
             $this->poruka=$e->getMessage();
             $this->novoView();
-            return;
-        }
-        
-        Veterinar::dodajNovi($this->entitet);
-        $this->index();
+        }       
     }
 
     private function noviEntitet()
@@ -59,17 +56,41 @@ class VeterinarController extends AutorizacijaController
             'poruka'=>$this->poruka
         ]);
     }
+
+    private function kontrola()
+    {
+        $this->kontrolaImePrezime();
+        $this->kontrolaOib();
+    }
+
+    private function kontrolaImePrezime()
+    {
+        $this->kontrolaIme();
+        $this->kontrolaPrezime();
+    }
     private function kontrolaIme()
     {
         if(strlen(trim($this->entitet->ime))==0){
             throw new Exception('Ime obavezno');
         }
+
+        if(strlen(trim($this->entitet->ime))>50){
+            throw new Exception('Ime predugačko');
+        }
+
     }
 
     private function kontrolaPrezime()
     {
         if(strlen(trim($this->entitet->prezime))==0){
             throw new Exception('Prezime obavezno');
+        }
+    }
+
+    private function kontrolaOib()
+    {
+        if(!Kontrola::CheckOIB($this->entitet->oib)){
+            throw new Exception('OIB nije ispravan');
         }
     }
 
