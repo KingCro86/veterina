@@ -61,7 +61,7 @@ class OrdinacijaController extends AutorizacijaController
             $this->kontrola();
             $zadnjaSifraOrdinacije=Ordinacija::dodajNovi($this->entitet);
             header('location: ' . App::config('url') . 
-            'grupa/promjena?sifra=' . $zadnjaSifraOrdinacije);
+            'ordinacija/promjena?sifra=' . $zadnjaSifraOrdinacije);
         } catch (Exception $e) {
             $this->poruka=$e->getMessage();
             $this->novoView();
@@ -159,8 +159,8 @@ class OrdinacijaController extends AutorizacijaController
         $this->view->render($this->viewDir . 'novo',[
             'entitet'=>$this->entitet,
             'poruka'=>$this->poruka,
-            'smjerovi'=>$this->pregledi,
-            'predavaci'=>$this->veterinari
+            'pregledi'=>$this->pregledi,
+            'veterinari'=>$this->veterinari
         ]);
     }
 
