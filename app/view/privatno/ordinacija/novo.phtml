@@ -1,41 +1,53 @@
 <form class="log-in-form" 
-    action="<?=App::config('url')?>veterinar/novo"
+action="<?=App::config('url')?>ordinacija/novo"
     method="POST">
-  <h4 class="text-center">Dodavanje novog veterinara</h4>
+    <h4 class="text-center">Dodavanje nove ordinacije</h4>
 
 
 
   <div class="grid-x grid-padding-x">
     <div class="cell large-6">
-        <label>Ime
-          <input type="text" name="ime" value="<?=$entitet->ime?>">
+    <label>Naziv
+          <input type="text" name="naziv" value="<?=$entitet->naziv?>">
         </label>
       </div>
     <div class="cell large-6">
-      <label>Prezime
-        <input type="text"  name="prezime" value="<?=$entitet->prezime?>">
+    <label>Pregled
+        <select name="pregled">
+          <?php foreach($pregledi as $pregled): ?>
+            <option <?php 
+              if($entitet->pregled==$pregled->sifra){
+                echo ' selected="selected" ';
+              }
+              ?> value="<?=$pregled->sifra ?>"><?=$pregled->naziv ?></option>
+          <?php endforeach; ?>
+        </select>
       </label>
     </div>
   </div>
 
-  <div class="grid-x grid-padding-x">
-    <div class="cell">
-      <label>Email
-        <input type="email" name="email" value="<?=$entitet->email?>">
-      </label>
-    </div>
-  </div>
+  
 
 
   <div class="grid-x grid-padding-x">
     <div class="cell large-6">
-      <label>OIB
-        <input type="text" name="oib" value="<?=$entitet->oib?>">
+    <label>Datum početka
+      <input type="datetime-local"
+       name="datumpocetka" value="<?=$entitet->datumpocetka; ?>"> 
       </label>
     </div>
     <div class="cell large-6">
-      <label>IBAN
-        <input type="text"  name="iban" value="<?=$entitet->iban?>">
+    
+      <label>Veterinar
+      <select name="veterinar">
+          <?php foreach($veterinari as $veterinar): ?>
+            <option <?php 
+              if($entitet->veterinar==$veterinar->sifra){
+                echo ' selected="selected" ';
+              }
+              ?> value="<?=$veterinar->sifra ?>"><?=$veterinar->ime . ' ' . $veterinar->prezime; ?></option>
+          <?php endforeach; ?>
+        </select>
       </label>
     </div>
   </div>
@@ -53,7 +65,7 @@
 <div class="grid-x grid-padding-x">
   <div class="cell small-6 medium-6 large-6">
     <a class="alert button expanded" 
-        href="<?=App::config('url')?>veterinar/index">Nazad</a>
+    href="<?=App::config('url')?>ordinacija/index">Nazad</a>
   </div>
   <div class="cell small-6 medium-6 large-6">
     <input type="submit" class="button expanded" value="Dodaj"></input>

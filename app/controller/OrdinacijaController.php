@@ -10,6 +10,27 @@ class OrdinacijaController extends AutorizacijaController
     
     private $entitet=null;
     private $poruka='';
+    private $pregledi=null;
+    private $veterinari=null;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->pregledi=Pregled::ucitajSve();
+        
+        $s=new stdClass();
+        $s->sifra=-1;
+        $s->naziv='Odaberite pregled';
+        array_unshift($this->pregledi,$s);
+
+
+        $this->veterinari=Veterinar::ucitajSve();
+        $s=new stdClass();
+        $s->sifra=-1;
+        $s->ime='Odabrite';
+        $s->prezime='Veterinara';
+        array_unshift($this->veterinari,$s);
+    }
 
     public function index()
     {
@@ -97,7 +118,7 @@ class OrdinacijaController extends AutorizacijaController
         $this->entitet->naziv='';
         $this->entitet->pregled=-1;
         $this->entitet->veterinar=-1;
-        $this->entitet->datumpocetka='';
+        $this->entitet->datumpocetka=date('Y-m-d\TH:i');;
         $this->poruka='Unesite tražene podatke';
         $this->novoView();
     }
@@ -115,13 +136,17 @@ class OrdinacijaController extends AutorizacijaController
     {
         $this->view->render($this->viewDir . 'novo',[
             'entitet'=>$this->entitet,
-            'poruka'=>$this->poruka
+            'poruka'=>$this->poruka,
+            'smjerovi'=>$this->pregledi,
+            'predavaci'=>$this->veterinari
         ]);
     }
 
     private function kontrola()
     {
         $this->kontrolaNaziv();
+        $this->kontrolaPregled();
+        $this->kontrolaVeterinar();
     }
 
     private function kontrolaNaziv()
@@ -132,6 +157,20 @@ class OrdinacijaController extends AutorizacijaController
 
         if(strlen(trim($this->entitet->naziv))>20){
             throw new Exception('Naziv predugačko');
+        }
+    }
+
+    private function kontrolaPregled()
+    {
+        if($this->entitet->pregled==-1){
+            throw new Exception('Pregled obavezno');
+        }
+    }
+
+    private function kontrolaVeterinar()
+    {
+        if($this->entitet->veterinar==-1){
+            throw new Exception('Veterinar obavezno');
         }
     }
 
