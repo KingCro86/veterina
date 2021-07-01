@@ -16,7 +16,7 @@ $(".slika").click(function(){
 
     $.ajax({
         type: "POST",
-        url:  "/polaznik/spremisliku",
+        url:  "/radnik/spremisliku",
         data: "id=" + sifraPolaznik + "&slika=" + result.toDataURL(),
         success: function(vratioServer){
           if(vratioServer==="OK"){
