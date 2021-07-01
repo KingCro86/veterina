@@ -63,13 +63,15 @@ action="<?=App::config('url')?>ordinacija/promjena"
             <th>Stimulacija</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="radnici">
         <?php foreach($entitet->radnici as $red): ?>
             <tr>
                 <td><?=$red->ime . ' ' . $red->prezime;?></td>
                 <td>
-                <a href="#" id="p_<?=$red->sifra?>">
-                        <i title="brisanje" style="color: red" class="fas fa-trash-alt"></i>
+                <a class="brisanje" href="#" 
+                id="p_<?=$red->sifra?>">
+                        <i title="brisanje" style="color: red" 
+                        class="fas fa-trash-alt"></i>
                         </a>
                 </td>
             </tr>
@@ -103,3 +105,6 @@ action="<?=App::config('url')?>ordinacija/promjena"
 <input type="hidden" name="sifra" value="<?=$entitet->sifra?>">
 
 </form>
+<script>
+let ordinacija=<?=$entitet->sifra?>;
+</script>

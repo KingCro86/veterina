@@ -3,6 +3,30 @@
 class Radnik
 {
 
+    public static function traziradnike()
+    {
+
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('
+        
+        select a.sifra, a.brojugovora,b.ime,b.prezime,
+        b.oib,b.email from radnik a 
+        inner join osoba b on a.osoba =b.sifra 
+        where concat(b.ime, \' \', b.prezime, \' \',
+        ifnull(b.oib,\'\')) like :uvjet and a.sifra not in
+        (select radnik from osoblje where ordinacija=:ordinacija)
+        limit 10
+        ');
+       
+        $izraz->execute([
+            'uvjet'=>'%' . $_GET['uvjet'] . '%',
+            'ordinacija'=>$_GET['ordinacija']
+        ]);
+        return $izraz->fetchAll();
+
+
+    }
+
     public static function ucitaj($sifra)
     {
 

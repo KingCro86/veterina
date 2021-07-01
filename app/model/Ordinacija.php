@@ -93,5 +93,28 @@ class Ordinacija
         $izraz->execute(['sifra'=>$sifra]);
     }
 
+    public static function dodajRadnika()
+    {
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('
+        
+            insert into osoblje (ordinacija,radnik) values 
+            (:ordinacija,:radnik);
+        
+        ');
+        $izraz->execute($_POST);
+    }
+
+    public static function obrisiRadnika()
+    {
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('
+        
+            delete from osoblje where ordinacija=:ordinacija and radnik=:radnik;
+        
+        ');
+        $izraz->execute($_POST);
+    }
+
 
 }

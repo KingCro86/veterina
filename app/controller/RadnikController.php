@@ -10,6 +10,12 @@ class RadnikController extends AutorizacijaController
     private $entitet=null;
     private $poruka='';
 
+    public function traziradnike()
+    {
+        header('Content-type: application/json');
+        echo json_encode(Radnik::traziradnike());
+    }
+
     public function index()
     {
        

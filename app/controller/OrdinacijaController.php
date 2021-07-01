@@ -107,6 +107,18 @@ class OrdinacijaController extends AutorizacijaController
        
     }
 
+    public function dodajradnika()
+    {
+        Ordinacija::dodajRadnika();
+        echo 'OK';
+    }
+
+    public function obrisiradnika()
+    {
+        Ordinacija::obrisiRadnika();
+        echo 'OK';
+    }
+
 
 
 
@@ -131,9 +143,14 @@ class OrdinacijaController extends AutorizacijaController
         $this->view->render($this->viewDir . 'promjena',[
             'entitet'=>$this->entitet,
             'poruka'=>$this->poruka,
-            'smjerovi'=>$this->pregledi,
-            'predavaci'=>$this->veterinari
+            'pregledi'=>$this->pregledi,
+            'veterinari'=>$this->veterinari,
+            'css'=>'<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">',
+            'js'=>'<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            <script src="' . App::config('url') . 'public/js/ordinacija/promjena.js"></script>'
         ]);
+        
     }
 
 
