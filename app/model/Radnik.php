@@ -34,7 +34,7 @@ class Radnik
         inner join osoba b on a.osoba =b.sifra 
         left join osoblje c on a.sifra =c.radnik 
         group by a.sifra, a.brojugovora,b.ime,b.prezime,
-        b.oib,b.email;
+        b.oib,b.email limit 12;
         
         ');
         $izraz->execute();

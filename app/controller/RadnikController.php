@@ -29,7 +29,8 @@ class RadnikController extends AutorizacijaController
 
         $this->view->render($this->viewDir . 'index',[
             
-            'entiteti'=>$radnici
+            'entiteti'=>$radnici,
+            'uvjet'=>''
         ]);
     }
 
