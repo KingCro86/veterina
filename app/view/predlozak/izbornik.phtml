@@ -19,7 +19,7 @@
           <li><a href="<?=App::config('url')?>pregled/index">Pregledi</a></li>
           <li><a href="<?=App::config('url')?>radnik/index">Radnici</a></li>
             <li><a href="<?=App::config('url')?>veterinar/index">Veterinari</a></li>
-            <li><a href="#">Ordinacije</a></li>
+            <li><a href="<?=App::config('url')?>ordinacija/index">Ordinacije</a></li>
             <?php if($_SESSION['autoriziran']->uloga=='admin'): ?>
               <li><a href="#">Operateri</a></li>
             <?php endif;?>
