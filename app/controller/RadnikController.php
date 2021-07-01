@@ -12,8 +12,36 @@ class RadnikController extends AutorizacijaController
 
     public function index()
     {
-        $radnici = Radnik::ucitajSve();
+       
 
+        
+
+        if(isset($_GET['uvjet'])){
+            $uvjet='%' . $_GET['uvjet'] . '%';
+        }else{
+            $uvjet='%';
+            $_GET['uvjet']='';
+        }
+
+        if(isset($_GET['stranica'])){
+            $stranica = $_GET['stranica'];
+            if($stranica==0){
+                $stranica=1;
+            }
+        }else{
+            $stranica=1;
+        }
+
+        $brojRadnika=Radnik::ukupnoRadnika($uvjet);
+        $ukupnoStranica=ceil($brojRadnika/App::config('rezultataPoStranici'));
+
+
+        if($stranica>$ukupnoStranica){
+            $stranica=$ukupnoStranica;
+        }
+
+        $radnici = Radnik::ucitajSve($stranica,$uvjet);
+        
         foreach($radnici as $red){
             if(file_exists(BP . 'public' . DIRECTORY_SEPARATOR .
             'img' . DIRECTORY_SEPARATOR . 'radnik' . 
@@ -28,9 +56,11 @@ class RadnikController extends AutorizacijaController
 
 
         $this->view->render($this->viewDir . 'index',[
-            
             'entiteti'=>$radnici,
-            'uvjet'=>''
+            
+            'uvjet'=>$_GET['uvjet'],
+            'stranica'=>$stranica,
+            'ukupnoStranica'=>$ukupnoStranica
         ]);
     }
 

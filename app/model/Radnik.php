@@ -23,8 +23,13 @@ class Radnik
 
 
 
-    public static function ucitajSve()
+    
+    public static function ucitajSve($stranica,$uvjet)
     {
+
+        $rps=App::config('rezultataPoStranici'); 
+        $od = $stranica * $rps - $rps;
+
 
         $veza = DB::getInstanca();
         $izraz=$veza->prepare('
@@ -33,12 +38,38 @@ class Radnik
         b.oib,b.email, count(c.ordinacija) as ukupnoordinacija from radnik a 
         inner join osoba b on a.osoba =b.sifra 
         left join osoblje c on a.sifra =c.radnik 
+        where concat(b.ime, \' \', b.prezime, \' \',
+        ifnull(b.oib,\'\')) like :uvjet
         group by a.sifra, a.brojugovora,b.ime,b.prezime,
-        b.oib,b.email limit 12;
+       
+        b.oib,b.email limit :od,:rps;
         
         ');
+       
+        $izraz->bindParam('uvjet',$uvjet);
+        $izraz->bindValue('od',$od, PDO::PARAM_INT);
+        $izraz->bindValue('rps',$rps, PDO::PARAM_INT);
         $izraz->execute();
         return $izraz->fetchAll();
+
+
+    }
+
+    public static function ukupnoRadnika($uvjet)
+    {
+
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('
+        
+        select count(a.sifra) from radnik a 
+        inner join osoba b on a.osoba =b.sifra 
+        where concat(b.ime, \' \', b.prezime, \' \',
+        ifnull(b.oib,\'\')) like :uvjet
+        ');
+       
+        $izraz->bindParam('uvjet',$uvjet);
+        $izraz->execute();
+        return $izraz->fetchColumn();
 
 
     }
@@ -109,7 +140,7 @@ class Radnik
 
         $izraz=$veza->prepare('
         
-            update radnik 
+            update radnik
             set brojugovora=:brojugovora
             where sifra=:sifra
     

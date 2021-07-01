@@ -20,5 +20,6 @@ if($dev){
 return [
     'url'=>'http://polaznik33.edunova.hr/',
     'nazivApp'=>'Happy Vet',
-    'baza'=>$baza
+    'baza'=>$baza,
+    'rezultataPoStranici'=>4
 ];

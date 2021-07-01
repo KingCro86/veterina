@@ -59,10 +59,12 @@
     <div class="callout">
         <nav aria-label="Pagination">
             <ul class="pagination text-center">
-                <li class="pagination-previous"> <a href="#">Prethodno</a> </li>
+            <li class="pagination-previous"> 
+                <a href="<?=App::config('url')?>radnik/index?stranica=<?php echo $stranica-1 ?>&uvjet=<?=$uvjet ?>">Prethodno</a> </li>
                 <li class="current"><span class="show-for-sr">
-                Vi ste na</span> 1 / 20</li>
-                <li class="pagination-next"><a href="#" aria-label="Sljedeća stranica">Sljedeće </a></li>
+                Vi ste na</span> <?php echo $stranica ?> / <?php echo $ukupnoStranica ?></li>
+                <li class="pagination-next">
+                <a href="<?=App::config('url')?>radnik/index?stranica=<?php echo $stranica+1 ?>&uvjet=<?=$uvjet ?>" aria-label="Sljedeća stranica">Sljedeće </a></li>
             </ul>
         </nav>
     </div>
