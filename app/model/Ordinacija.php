@@ -12,7 +12,22 @@ class Ordinacija
         
         ');
         $izraz->execute(['sifra'=>$sifra]);
-        return $izraz->fetch();
+        $ordinacija= $izraz->fetch();
+
+        $izraz=$veza->prepare('
+        
+        select b.sifra, c.ime, c.prezime 
+        from osoblje a inner join radnik b
+        on a.radnik =b.sifra 
+        inner join osoba c on
+        b.osoba =c.sifra 
+        where a.ordinacija =:sifra
+        
+        ');
+        $izraz->execute(['sifra'=>$sifra]);
+        $ordinacija->radnici = $izraz->fetchAll();
+
+        return $ordinacija;
     }
 
     public static function ucitajSve()
@@ -50,6 +65,7 @@ class Ordinacija
         
         ');
         $izraz->execute((array)$ordinacija);
+        return $veza->lastInsertId();
     }
 
     public static function promjeniPostojeci($ordinacija)

@@ -59,8 +59,9 @@ class OrdinacijaController extends AutorizacijaController
         $this->entitet = (object) $_POST;
         try {
             $this->kontrola();
-            Ordinacija::dodajNovi($this->entitet);
-            $this->index();
+            $zadnjaSifraOrdinacije=Ordinacija::dodajNovi($this->entitet);
+            header('location: ' . App::config('url') . 
+            'grupa/promjena?sifra=' . $zadnjaSifraOrdinacije);
         } catch (Exception $e) {
             $this->poruka=$e->getMessage();
             $this->novoView();
@@ -76,6 +77,8 @@ class OrdinacijaController extends AutorizacijaController
                return;
             }
             $this->entitet = Ordinacija::ucitaj($_GET['sifra']);
+            $datum=date('Y-m-d\TH:i', strtotime($this->entitet->datumpocetka));
+            $this->entitet->datumpocetka=$datum;
             $this->poruka='Promjenite željene podatke';
             $this->promjenaView();
             return;
@@ -127,7 +130,9 @@ class OrdinacijaController extends AutorizacijaController
     {
         $this->view->render($this->viewDir . 'promjena',[
             'entitet'=>$this->entitet,
-            'poruka'=>$this->poruka
+            'poruka'=>$this->poruka,
+            'smjerovi'=>$this->pregledi,
+            'predavaci'=>$this->veterinari
         ]);
     }
 
