@@ -80,6 +80,11 @@ class IndexController extends Controller
         ]);
     }
 
+    public function ajax()
+    {
+        echo json_encode(Radnik::ucitajSve(1,'%'));
+    }
+
      /*
     public function test()
     {
