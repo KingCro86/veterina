@@ -3,6 +3,22 @@
 class Ordinacija
 {
 
+    public static function brojRadnikaPoOrdinacijama()
+    {
+        $veza = DB::getInstanca();
+        $izraz=$veza->prepare('
+        
+        select a.naziv as name, count(b.radnik) as y
+        from ordinacija a inner join osoblje b
+        on a.sifra =b.ordinacija
+        group by a.naziv;
+        
+        ');
+        $izraz->execute();
+        return $izraz->fetchAll();
+
+    }
+
     public static function ucitaj($sifra)
     {
         $veza = DB::getInstanca();
