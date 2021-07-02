@@ -4,7 +4,7 @@ $('#uvjet').autocomplete({
             url:'/radnik/traziradnike',
             data:{
                 uvjet: req.term,
-                grupa: grupa
+            ordinacija: ordinacija
             },
             success: function(odgovor){
                 res(odgovor);
@@ -13,7 +13,7 @@ $('#uvjet').autocomplete({
     },
     minLength: 2,
     select: function(dogadaj,ui){
-        spremi(grupa,ui.item);
+        spremi(ordinacija,ui.item);
     }
 }).autocomplete('instance')._renderItem=function(ul,radnik){
     return $('<li>').append('<div>' + radnik.ime + ' ' + radnik.prezime +
@@ -52,14 +52,14 @@ function definirajBrisanje(){
     $('.brisanje').click(function(){
         let element=$(this);
         let sifra = element.attr('id').split('_')[1];
-        //console.log('grupa:' + grupa);
-        //console.log('polaznik:' + sifra);
+        //console.log('ordinacija:' + ordinacija);
+        //console.log('radnik:' + sifra);
         $.ajax({
             type:'POST',
-            url:'/grupa/obrisipolaznika',
+            url:'/ordinacija/obrisiradnika',
             data:{
-                polaznik: sifra,
-                grupa: grupa
+                radnik: sifra,
+                ordinacija: ordinacija
             },
             success: function(odgovor){
                 if(odgovor==='OK'){
