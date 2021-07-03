@@ -4,7 +4,7 @@ $('#uvjet').autocomplete({
             url:'/radnik/traziradnike',
             data:{
                 uvjet: req.term,
-            ordinacija: ordinacija
+                ordinacija: ordinacija
             },
             success: function(odgovor){
                 res(odgovor);
@@ -21,7 +21,7 @@ $('#uvjet').autocomplete({
 };
 
 function spremi(ordinacija,radnik){
-    //console.log('ordinacija:' + ordinacija);
+    //console.log('radnik:' + ordinacija);
     //console.log('radnik:' + radnik.sifra);
     $.ajax({
         type:'POST',
