@@ -28,7 +28,7 @@ class OrdinacijaController extends AutorizacijaController
         $s=new stdClass();
         $s->sifra=-1;
         $s->ime='Odabrite';
-        $s->prezime='Veterinara';
+        $s->prezime='Predavača';
         array_unshift($this->veterinari,$s);
     }
 
@@ -133,7 +133,7 @@ class OrdinacijaController extends AutorizacijaController
         $this->entitet->naziv='';
         $this->entitet->pregled=-1;
         $this->entitet->veterinar=-1;
-        $this->entitet->datumpocetka=date('Y-m-d\TH:i');;
+        $this->entitet->datumpocetka=date('Y-m-d\TH:i');
         $this->poruka='Unesite tražene podatke';
         $this->novoView();
     }
@@ -150,7 +150,6 @@ class OrdinacijaController extends AutorizacijaController
             <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
             <script src="' . App::config('url') . 'public/js/ordinacija/promjena.js"></script>'
         ]);
-        
     }
 
 
