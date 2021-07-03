@@ -28,7 +28,7 @@ class OrdinacijaController extends AutorizacijaController
         $s=new stdClass();
         $s->sifra=-1;
         $s->ime='Odabrite';
-        $s->prezime='Predavača';
+        $s->prezime='Veterinara';
         array_unshift($this->veterinari,$s);
     }
 

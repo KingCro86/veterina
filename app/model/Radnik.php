@@ -15,7 +15,7 @@ class Radnik
         where concat(b.ime, \' \', b.prezime, \' \',
         ifnull(b.oib,\'\')) like :uvjet and a.sifra not in
         (select radnik from osoblje where ordinacija=:ordinacija)
-        limit 10
+        limit 6
         ');
        
         $izraz->execute([
@@ -47,7 +47,6 @@ class Radnik
 
 
 
-    
     public static function ucitajSve($stranica,$uvjet)
     {
 
@@ -61,11 +60,10 @@ class Radnik
         select a.sifra, a.brojugovora,b.ime,b.prezime,
         b.oib,b.email, count(c.ordinacija) as ukupnoordinacija from radnik a 
         inner join osoba b on a.osoba =b.sifra 
-        left join osoblje c on a.sifra =c.radnik 
+        left join osoblje c on a.sifra =c.radnik
         where concat(b.ime, \' \', b.prezime, \' \',
         ifnull(b.oib,\'\')) like :uvjet
         group by a.sifra, a.brojugovora,b.ime,b.prezime,
-       
         b.oib,b.email limit :od,:rps;
         
         ');
@@ -164,7 +162,7 @@ class Radnik
 
         $izraz=$veza->prepare('
         
-            update radnik
+            update polaznik 
             set brojugovora=:brojugovora
             where sifra=:sifra
     
